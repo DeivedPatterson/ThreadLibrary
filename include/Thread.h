@@ -28,7 +28,7 @@ typedef struct ThreadAttribute
 
 typedef void* (*ThreadFunction)(void* parameters);
 
-short ThreadCreate(const unsigned char* name, const ThreadAttribute* threadAtt, ThreadFunction func, const Thread* tcb);
+short ThreadCreate(const unsigned char* name, const ThreadAttribute* threadAtt, ThreadFunction func, Thread* tcb);
 
 void ThreadWaitTicks(const unsigned int ticks);
 void ThreadDelayMs(const unsigned int time);

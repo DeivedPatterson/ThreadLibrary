@@ -3,6 +3,9 @@
 /*		Author: Deived William		*/
 /*		Date: 20/04/2018			*/
 /************************************/
+
+
+
 #ifndef SEMAPHORE_H_
 #define SEMAPHORE_H_ 
 
@@ -18,7 +21,7 @@ typedef void* Mutex;
 void up(Semaphore* sem);
 void down(Semaphore* sem);
 int getSemaphoreValue(Semaphore* sem);
-Semaphore* SemaphoreCreate(const unsigned char* name, int value);
+Semaphore SemaphoreCreate(const unsigned char* name, int value);
 void destroySemaphore(Semaphore* sem);
 
 #endif

@@ -36,7 +36,7 @@ int getSemaphoreValue(Semaphore* sem)
 	return (((strSemaphore*)(*sem))->value);
 }
 
-Semaphore* SemaphoreCreate(const unsigned char* name, int value)
+Semaphore SemaphoreCreate(const unsigned char* name, int value)
 {
 	strSemaphore* semaphore = NULL;
 
@@ -49,7 +49,7 @@ Semaphore* SemaphoreCreate(const unsigned char* name, int value)
 		strcpy(semaphore->name, name);
 	}
 
-	return semaphore;
+	return (void*)semaphore;
 }
 
 void destroySemaphore(Semaphore* sem)

@@ -1,12 +1,19 @@
 #include "../include/Schedule.h"
 #include "../include/Config.h"
 
+
 #ifdef PIC32MX
 
+    #include <p32xxxx.h>
+    #include <sys/attribs.h>
+   
 	#define PERIPHERAL_CLOCK_HZ 	80000000ul
 	#define TICK_RATE_HZ			1000u
 	#define TIME_PRESCALE			8u 
-	#define PRESCALE_SELECT_BITS 	1       
+	#define PRESCALE_SELECT_BITS 	1     
+
+    void __ISR(_TIMER_1_VECTOR,IPL1AUTO) TimerTicksInterrupt(void);
+    void __ISR(_CORE_SOFTWARE_0_VECTOR,IPL1AUTO) SoftwareInterrupt(void);
 
 #endif
 
@@ -20,7 +27,7 @@ unsigned int StackISR[MIN_STACK_ISR]__attribute__((aligned(8)));
 unsigned int* StackTop = &(StackISR[MIN_STACK_ISR-1]);
 unsigned int CurrentThreadAddress;
 void ThreadStackInit(unsigned int* ThreadStackTop, void*(Function)(void*), void* parameters);
-
+void StartFirstThread(void);
 
 
 void ThreadStackInit(unsigned int* ThreadStackTop, void*(Function)(void*), void* parameters)
@@ -45,6 +52,7 @@ void StartScheduling(void)
 	IEC0bits.CS0IE = 1;
 	TimerTicksConfig();
 	CurrentThreadAddress = *(unsigned int*)RunningThread;
+    StartFirstThread();
 
 #endif
 }

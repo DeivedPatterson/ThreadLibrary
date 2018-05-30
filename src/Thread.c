@@ -1,7 +1,9 @@
 #include "../include/Thread.h"
 #include "../include/Types.h"
+#include "../include/DataStructure.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 #ifndef MAX_PRIORITY
@@ -26,7 +28,7 @@ static List SuspendedThreads;
 volatile ThreadControlBlock* RunningThread = NULL;
 
 
-short ThreadCreate(const unsigned char* name,const ThreadAttribute* threadAtt,ThreadFunction func,const Thread* tcb)
+short ThreadCreate(const unsigned char* name,const ThreadAttribute* threadAtt,ThreadFunction func, Thread* tcb)
 {
 	ThreadControlBlock* newTcb = NULL;
 
