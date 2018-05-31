@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED="C:/Users/Robertinho do fv/Desktop/Thread/ThreadLibrary.X/main.c" "C:/Users/Robertinho do fv/Desktop/Thread/src/DataStructure.c" "C:/Users/Robertinho do fv/Desktop/Thread/src/Schedule.c" "C:/Users/Robertinho do fv/Desktop/Thread/src/Semaphore.c" "C:/Users/Robertinho do fv/Desktop/Thread/src/Thread.c" "C:/Users/Robertinho do fv/Desktop/Thread/include/ISR.s"
+SOURCEFILES_QUOTED_IF_SPACED="C:/Users/Robertinho do fv/Desktop/Thread/include/ISR.s" "C:/Users/Robertinho do fv/Desktop/Thread/src/DataStructure.c" "C:/Users/Robertinho do fv/Desktop/Thread/src/Semaphore.c" "C:/Users/Robertinho do fv/Desktop/Thread/src/Thread.c" "C:/Users/Robertinho do fv/Desktop/Thread/ThreadLibrary.X/main.c" "C:/Users/Robertinho do fv/Desktop/Thread/src/ScheduleMips.c" "C:/Users/Robertinho do fv/Desktop/Thread/src/MIPS32_M4K.c"
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1068367470/main.o ${OBJECTDIR}/_ext/1949303525/DataStructure.o ${OBJECTDIR}/_ext/1949303525/Schedule.o ${OBJECTDIR}/_ext/1949303525/Semaphore.o ${OBJECTDIR}/_ext/1949303525/Thread.o ${OBJECTDIR}/_ext/479780769/ISR.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1068367470/main.o.d ${OBJECTDIR}/_ext/1949303525/DataStructure.o.d ${OBJECTDIR}/_ext/1949303525/Schedule.o.d ${OBJECTDIR}/_ext/1949303525/Semaphore.o.d ${OBJECTDIR}/_ext/1949303525/Thread.o.d ${OBJECTDIR}/_ext/479780769/ISR.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/479780769/ISR.o ${OBJECTDIR}/_ext/1949303525/DataStructure.o ${OBJECTDIR}/_ext/1949303525/Semaphore.o ${OBJECTDIR}/_ext/1949303525/Thread.o ${OBJECTDIR}/_ext/1068367470/main.o ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/479780769/ISR.o.d ${OBJECTDIR}/_ext/1949303525/DataStructure.o.d ${OBJECTDIR}/_ext/1949303525/Semaphore.o.d ${OBJECTDIR}/_ext/1949303525/Thread.o.d ${OBJECTDIR}/_ext/1068367470/main.o.d ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o.d ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1068367470/main.o ${OBJECTDIR}/_ext/1949303525/DataStructure.o ${OBJECTDIR}/_ext/1949303525/Schedule.o ${OBJECTDIR}/_ext/1949303525/Semaphore.o ${OBJECTDIR}/_ext/1949303525/Thread.o ${OBJECTDIR}/_ext/479780769/ISR.o
+OBJECTFILES=${OBJECTDIR}/_ext/479780769/ISR.o ${OBJECTDIR}/_ext/1949303525/DataStructure.o ${OBJECTDIR}/_ext/1949303525/Semaphore.o ${OBJECTDIR}/_ext/1949303525/Thread.o ${OBJECTDIR}/_ext/1068367470/main.o ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o
 
 # Source Files
-SOURCEFILES=C:/Users/Robertinho do fv/Desktop/Thread/ThreadLibrary.X/main.c C:/Users/Robertinho do fv/Desktop/Thread/src/DataStructure.c C:/Users/Robertinho do fv/Desktop/Thread/src/Schedule.c C:/Users/Robertinho do fv/Desktop/Thread/src/Semaphore.c C:/Users/Robertinho do fv/Desktop/Thread/src/Thread.c C:/Users/Robertinho do fv/Desktop/Thread/include/ISR.s
+SOURCEFILES=C:/Users/Robertinho do fv/Desktop/Thread/include/ISR.s C:/Users/Robertinho do fv/Desktop/Thread/src/DataStructure.c C:/Users/Robertinho do fv/Desktop/Thread/src/Semaphore.c C:/Users/Robertinho do fv/Desktop/Thread/src/Thread.c C:/Users/Robertinho do fv/Desktop/Thread/ThreadLibrary.X/main.c C:/Users/Robertinho do fv/Desktop/Thread/src/ScheduleMips.c C:/Users/Robertinho do fv/Desktop/Thread/src/MIPS32_M4K.c
 
 
 CFLAGS=
@@ -114,23 +114,11 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/_ext/1068367470/main.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/ThreadLibrary.X/main.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1068367470" 
-	@${RM} ${OBJECTDIR}/_ext/1068367470/main.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1068367470/main.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1068367470/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DPICkit3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1068367470/main.o.d" -o ${OBJECTDIR}/_ext/1068367470/main.o "C:/Users/Robertinho do fv/Desktop/Thread/ThreadLibrary.X/main.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
-	
 ${OBJECTDIR}/_ext/1949303525/DataStructure.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/DataStructure.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
 	@${RM} ${OBJECTDIR}/_ext/1949303525/DataStructure.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1949303525/DataStructure.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/DataStructure.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DPICkit3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/DataStructure.o.d" -o ${OBJECTDIR}/_ext/1949303525/DataStructure.o "C:/Users/Robertinho do fv/Desktop/Thread/src/DataStructure.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
-	
-${OBJECTDIR}/_ext/1949303525/Schedule.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/Schedule.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
-	@${RM} ${OBJECTDIR}/_ext/1949303525/Schedule.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1949303525/Schedule.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/Schedule.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DPICkit3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/Schedule.o.d" -o ${OBJECTDIR}/_ext/1949303525/Schedule.o "C:/Users/Robertinho do fv/Desktop/Thread/src/Schedule.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
 ${OBJECTDIR}/_ext/1949303525/Semaphore.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/Semaphore.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
@@ -144,24 +132,30 @@ ${OBJECTDIR}/_ext/1949303525/Thread.o: C:/Users/Robertinho\ do\ fv/Desktop/Threa
 	@${RM} ${OBJECTDIR}/_ext/1949303525/Thread.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/Thread.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DPICkit3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/Thread.o.d" -o ${OBJECTDIR}/_ext/1949303525/Thread.o "C:/Users/Robertinho do fv/Desktop/Thread/src/Thread.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
-else
 ${OBJECTDIR}/_ext/1068367470/main.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/ThreadLibrary.X/main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1068367470" 
 	@${RM} ${OBJECTDIR}/_ext/1068367470/main.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1068367470/main.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1068367470/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1068367470/main.o.d" -o ${OBJECTDIR}/_ext/1068367470/main.o "C:/Users/Robertinho do fv/Desktop/Thread/ThreadLibrary.X/main.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1068367470/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DPICkit3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1068367470/main.o.d" -o ${OBJECTDIR}/_ext/1068367470/main.o "C:/Users/Robertinho do fv/Desktop/Thread/ThreadLibrary.X/main.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/_ext/1949303525/ScheduleMips.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/ScheduleMips.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
+	@${RM} ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/ScheduleMips.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DPICkit3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/ScheduleMips.o.d" -o ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o "C:/Users/Robertinho do fv/Desktop/Thread/src/ScheduleMips.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/MIPS32_M4K.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
+	@${RM} ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DPICkit3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o.d" -o ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o "C:/Users/Robertinho do fv/Desktop/Thread/src/MIPS32_M4K.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	
+else
 ${OBJECTDIR}/_ext/1949303525/DataStructure.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/DataStructure.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
 	@${RM} ${OBJECTDIR}/_ext/1949303525/DataStructure.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1949303525/DataStructure.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/DataStructure.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/DataStructure.o.d" -o ${OBJECTDIR}/_ext/1949303525/DataStructure.o "C:/Users/Robertinho do fv/Desktop/Thread/src/DataStructure.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
-	
-${OBJECTDIR}/_ext/1949303525/Schedule.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/Schedule.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
-	@${RM} ${OBJECTDIR}/_ext/1949303525/Schedule.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1949303525/Schedule.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/Schedule.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/Schedule.o.d" -o ${OBJECTDIR}/_ext/1949303525/Schedule.o "C:/Users/Robertinho do fv/Desktop/Thread/src/Schedule.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
 ${OBJECTDIR}/_ext/1949303525/Semaphore.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/Semaphore.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
@@ -174,6 +168,24 @@ ${OBJECTDIR}/_ext/1949303525/Thread.o: C:/Users/Robertinho\ do\ fv/Desktop/Threa
 	@${RM} ${OBJECTDIR}/_ext/1949303525/Thread.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1949303525/Thread.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/Thread.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/Thread.o.d" -o ${OBJECTDIR}/_ext/1949303525/Thread.o "C:/Users/Robertinho do fv/Desktop/Thread/src/Thread.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/_ext/1068367470/main.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/ThreadLibrary.X/main.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/1068367470" 
+	@${RM} ${OBJECTDIR}/_ext/1068367470/main.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1068367470/main.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1068367470/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1068367470/main.o.d" -o ${OBJECTDIR}/_ext/1068367470/main.o "C:/Users/Robertinho do fv/Desktop/Thread/ThreadLibrary.X/main.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/_ext/1949303525/ScheduleMips.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/ScheduleMips.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
+	@${RM} ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/ScheduleMips.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/ScheduleMips.o.d" -o ${OBJECTDIR}/_ext/1949303525/ScheduleMips.o "C:/Users/Robertinho do fv/Desktop/Thread/src/ScheduleMips.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o: C:/Users/Robertinho\ do\ fv/Desktop/Thread/src/MIPS32_M4K.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/1949303525" 
+	@${RM} ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o.d" -o ${OBJECTDIR}/_ext/1949303525/MIPS32_M4K.o "C:/Users/Robertinho do fv/Desktop/Thread/src/MIPS32_M4K.c"    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
 endif
 

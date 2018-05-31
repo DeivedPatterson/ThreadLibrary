@@ -36,5 +36,6 @@ void ThreadBlocked(Thread* threadToBlocked);
 void ThreadResume(Thread* threadToResume);
 inline Thread __attribute__((always_inline))ThreadGetCurrentThreadPtr(void);
 void BlockedCurrentThread();
+void __attribute__((nomips16))TaskYield(void);
 
 #endif

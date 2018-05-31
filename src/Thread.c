@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../include/MIPS32_M4K.h"
 
 
 #ifndef MAX_PRIORITY
@@ -94,6 +95,17 @@ void ThreadResume(Thread* threadToResume)
 
 void BlockedCurrentThread()
 {
+    DisableInterrupts();
 	RunningThread->state = Blocked;
 	Queue_Insert(BlockedThreads, (void*)RunningThread);
+    EnableInterrupts();
+}
+
+void __attribute__((nomips16))TaskYield(void)
+{
+    volatile register unsigned long temp;
+    
+    asm volatile("mfc0 %0,$13,0" : "=r"(temp));
+    temp = temp | (unsigned long)(1 << 8);
+    asm volatile("mtc0 %0,$13,0" :: "r"(temp));
 }
