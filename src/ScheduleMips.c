@@ -2,6 +2,7 @@
 #include "../include/Config.h"
 #include <proc/p32mx460f512l.h>
 #include <sys/attribs.h>
+#include "../include/Types.h"
 #include "../include/MIPS32_M4K.h"
    
 #define PERIPHERAL_CLOCK_HZ 	80000000ul
@@ -15,13 +16,15 @@
 #endif
 
 
-volatile unsigned int startedSystem = 1;
+volatile unsigned int SystemStackFlag = 1;
 unsigned int StackISR[MIN_STACK_ISR]__attribute__((aligned(8)));
 unsigned int* SystemStackTop = &(StackISR[MIN_STACK_ISR-1]);
+unsigned int CurrentThreadStackAddress;
 unsigned int CurrentThreadAddress;
 void ThreadStackInit(unsigned int* ThreadStackTop, void*(Function)(void*), void* parameters);
 void StartFirstThread(void);
 static void ThreadError(void);
+extern Boolean ThreadIncrementTicks(void);
 void __ISR(_TIMER_1_VECTOR,IPL1AUTO) TimerTicksInterrupt(void);
 void __ISR(_CORE_SOFTWARE_0_VECTOR,IPL1AUTO) SoftwareInterrupt(void);
 
@@ -63,7 +66,6 @@ void EndSheduling(void)
 
 void TimerTicksConfig(void)
 {
-	
 	const unsigned short Comparator = ((PERIPHERAL_CLOCK_HZ /TIME_PRESCALE)/TICK_RATE_HZ) - 1;
 
 	T1CON = 0x0000;
@@ -79,4 +81,9 @@ static void ThreadError(void)
 {
     DisableInterrupts();
     while(1);
+}
+
+void TicksIncrement(void)
+{
+    ThreadIncrementTicks();
 }

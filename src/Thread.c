@@ -12,7 +12,7 @@
 #endif
 
 #define STACK_SIZE_DEFAULT 128u
-
+#define ticks_t +0
 
 typedef struct ThreadControlBlock
 {
@@ -22,12 +22,42 @@ typedef struct ThreadControlBlock
 	ThreadState state;
 }ThreadControlBlock;
 
+
 static unsigned qntThreads;
 static List ReadyThreads[MAX_PRIORITY];
 static List BlockedThreads;
 static List SuspendedThreads;
 volatile ThreadControlBlock* RunningThread = NULL;
+static unsigned ThreadTicks;
+static const unsigned timeSlice = 50 ticks_t;
+Boolean SwitchThreadRequired; 
 
+static void __attribute__((constructor))ThreadLibInit(void)
+{
+    unsigned i;
+    
+    for(i = 0; i < MAX_PRIORITY; i++)
+    {
+        ReadyThreads[i] = newDataStructure();
+    }
+    BlockedThreads = newDataStructure();
+    SuspendedThreads = newDataStructure();
+    ThreadTicks = 0;
+    SwitchThreadRequired = FALSE;
+    qntThreads = 0;
+}
+
+static void __attribute__((destructor))ThreadLibFinish(void)
+{
+    unsigned i;
+    
+    for(i = 0; i < MAX_PRIORITY; i++)
+    {
+        DataStructureDestroy(ReadyThreads[i]);
+    }
+    DataStructureDestroy(BlockedThreads);
+    DataStructureDestroy(SuspendedThreads);
+}
 
 short ThreadCreate(const unsigned char* name,const ThreadAttribute* threadAtt,ThreadFunction func, Thread* tcb)
 {
@@ -71,6 +101,21 @@ short ThreadCreate(const unsigned char* name,const ThreadAttribute* threadAtt,Th
 inline Thread __attribute__((always_inline))ThreadGetCurrentThreadPtr(void)
 {
 	return ((Thread)RunningThread);
+}
+
+Boolean ThreadIncrementTicks(void)
+{
+    const unsigned Ticks = ThreadTicks + 1;
+    Boolean SwitchR = FALSE;
+    
+    ThreadTicks = Ticks;
+    
+    if(Ticks >= timeSlice)
+    {
+        SwitchR = TRUE;
+    }
+   
+    return SwitchR;
 }
 
 void ThreadWaitTicks(const unsigned int ticks)

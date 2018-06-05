@@ -7,6 +7,8 @@
 #ifndef SCHEDULE_H_
 #define SCHEDULE_H_
 
+#define CONTEXT_SIZEN 128
+
 
 void StartScheduling(void);
 void EndSheduling(void);
