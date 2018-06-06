@@ -85,5 +85,11 @@ static void ThreadError(void)
 
 void TicksIncrement(void)
 {
+    __builtin_disable_interrupts();
     ThreadIncrementTicks();
+    
+    _CP0_SET_STATUS(0);
+    asm volatile("la $t0,IFS0CLR");
+    asm volatile("addiu $t1,$zero,10");
+    asm volatile("sw $t1,0($t0)");
 }

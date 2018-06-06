@@ -118,6 +118,12 @@ Boolean ThreadIncrementTicks(void)
     return SwitchR;
 }
 
+void ThreadSwitchContext(void)
+{
+    
+}
+
+
 void ThreadWaitTicks(const unsigned int ticks)
 {
 
@@ -146,11 +152,3 @@ void BlockedCurrentThread()
     EnableInterrupts();
 }
 
-void __attribute__((nomips16))TaskYield(void)
-{
-    volatile register unsigned long temp;
-    
-    asm volatile("mfc0 %0,$13,0" : "=r"(temp));
-    temp = temp | (unsigned long)(1 << 8);
-    asm volatile("mtc0 %0,$13,0" :: "r"(temp));
-}

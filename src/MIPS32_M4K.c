@@ -36,3 +36,12 @@ void __attribute__((nomips16)) KSeg0Uncached(void)
     temp = (temp&0xFFFFFFF8)|2;
     asm volatile("mtc0 %0,$16,0" :: "r"(temp));  
 }
+
+void __attribute__((nomips16)) SoftwareInterruptRequest(void)
+{
+    volatile register unsigned long temp;
+    
+    asm volatile("mfc0 %0,$13,0" : "=r"(temp));
+    temp = temp | (unsigned long)(1 << 8);
+    asm volatile("mtc0 %0,$13,0" :: "r"(temp));
+}

@@ -12,5 +12,6 @@ inline unsigned int __attribute__((nomips16,always_inline)) EnableInterrupts(voi
 inline unsigned int __attribute__((nomips16,always_inline)) DisableInterrupts(void);
 void __attribute__((nomips16)) KSeg0Cacheable(void);
 void __attribute__((nomips16)) KSeg0Uncached(void);
+void __attribute__((nomips16)) SoftwareInterruptRequest(void);
 #endif	/* MIPS32_M4K_H */
 
