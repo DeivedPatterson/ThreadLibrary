@@ -13,7 +13,7 @@
         <itemPath>C:/Users/Robertinho do fv/Desktop/Thread/include/ISR.s</itemPath>
         <itemPath>C:/Users/Robertinho do fv/Desktop/Thread/include/Schedule.h</itemPath>
         <itemPath>C:/Users/Robertinho do fv/Desktop/Thread/include/MIPS32_M4K.h</itemPath>
-        <itemPath>C:/Users/Robertinho do fv/Desktop/Thread/include/ISRSuport.inc</itemPath>
+        <itemPath>C:/Users/Robertinho do fv/Desktop/Thread/include/PrologueAndEpilogue.inc</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -242,6 +242,7 @@
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="UART1" value="true"/>
         <property key="UART2" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

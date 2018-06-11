@@ -7,7 +7,7 @@
    
 #define PERIPHERAL_CLOCK_HZ 	80000000ul
 #define TICK_RATE_HZ			1000u
-#define TIME_PRESCALE			8u 
+#define TIME_PRESCALE			8
 #define PRESCALE_SELECT_BITS 	1     
 
    
@@ -19,9 +19,9 @@
 volatile unsigned int SystemStackFlag = 1;
 unsigned int StackISR[MIN_STACK_ISR]__attribute__((aligned(8)));
 unsigned int* SystemStackTop = &(StackISR[MIN_STACK_ISR-1]);
-unsigned int CurrentThreadStackAddress;
+unsigned int CurrentThreadStackAddress = 0;
 unsigned int CurrentThreadAddress;
-void ThreadStackInit(unsigned int* ThreadStackTop, void*(Function)(void*), void* parameters);
+void* ThreadStackInit(unsigned int* ThreadStackTop, void(Function)(void*), void* parameters);
 void StartFirstThread(void);
 static void ThreadError(void);
 extern Boolean ThreadIncrementTicks(void);
@@ -30,7 +30,7 @@ void __ISR(_CORE_SOFTWARE_0_VECTOR,IPL1AUTO) SoftwareInterrupt(void);
 
 
 
-void ThreadStackInit(unsigned int* ThreadStackTop, void*(Function)(void*), void* parameters)
+void* ThreadStackInit(unsigned int* ThreadStackTop, void(Function)(void*), void* parameters)
 {
     unsigned int temp;
     
@@ -43,19 +43,20 @@ void ThreadStackInit(unsigned int* ThreadStackTop, void*(Function)(void*), void*
     ThreadStackTop -= 15;
     *ThreadStackTop = (unsigned int)parameters;
     ThreadStackTop -= 15;
+    
+    return ThreadStackTop;
 }
 
 void StartScheduling(void)
 {
 	extern void* RunningThread;
-
-	IFS0bits.CS0IF = 0;
-	IPC0bits.CS0IP = 0;
-	IPC0bits.CS0IP = KERNEL_INTERRUPT_PRIORITY;
-	IPC0bits.CS0IS = 3;
-	IEC0bits.CS0IE = 1;
+    
+    IFS0CLR = _IFS0_CS0IF_MASK;
+	IPC0SET = (KERNEL_INTERRUPT_PRIORITY << _IPC0_CS0IP_POSITION);
+	IEC0CLR = _IEC0_CS0IE_MASK;
+    IEC0SET = 1 << _IEC0_CS0IE_POSITION;
 	TimerTicksConfig();
-	CurrentThreadAddress = *(unsigned int*)RunningThread;
+	CurrentThreadStackAddress = *((unsigned int*)RunningThread);
     StartFirstThread();
 }
 
@@ -66,7 +67,7 @@ void EndSheduling(void)
 
 void TimerTicksConfig(void)
 {
-	const unsigned short Comparator = ((PERIPHERAL_CLOCK_HZ /TIME_PRESCALE)/TICK_RATE_HZ) - 1;
+	const unsigned int Comparator = ((PERIPHERAL_CLOCK_HZ /TIME_PRESCALE)/TICK_RATE_HZ) - 1;
 
 	T1CON = 0x0000;
 	T1CONbits.TCKPS = PRESCALE_SELECT_BITS;
@@ -85,11 +86,15 @@ static void ThreadError(void)
 
 void TicksIncrement(void)
 {
+    unsigned int SaveStausRegister;
+   
     __builtin_disable_interrupts();
+   
+    SaveStausRegister = _CP0_GET_STATUS()|0x0000001;
+    _CP0_SET_STATUS((SaveStausRegister&IPL_BITS)|0x00000C00);
     ThreadIncrementTicks();
+            
+    _CP0_SET_STATUS(SaveStausRegister);
     
-    _CP0_SET_STATUS(0);
-    asm volatile("la $t0,IFS0CLR");
-    asm volatile("addiu $t1,$zero,10");
-    asm volatile("sw $t1,0($t0)");
+    IFS0CLR = _IFS0_T1IF_MASK;
 }

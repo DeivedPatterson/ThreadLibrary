@@ -20,6 +20,10 @@ typedef struct ThreadControlBlock
 	unsigned char* name;
 	ThreadFunction function;
 	ThreadState state;
+    unsigned int arrivalCycle;
+    unsigned int cpuCycle;
+    unsigned int cacheHit;
+    unsigned int cacheMiss;
 }ThreadControlBlock;
 
 
@@ -28,14 +32,20 @@ static List ReadyThreads[MAX_PRIORITY];
 static List BlockedThreads;
 static List SuspendedThreads;
 volatile ThreadControlBlock* RunningThread = NULL;
-static unsigned ThreadTicks;
+static ThreadControlBlock* candidateThread = NULL;
+
+static unsigned int ThreadTicks ;
 static const unsigned timeSlice = 50 ticks_t;
 Boolean SwitchThreadRequired; 
 
-static void __attribute__((constructor))ThreadLibInit(void)
+static void AddNewThreadReadyList(ThreadControlBlock* Tcb);
+extern void* ThreadStackInit(unsigned int* ThreadStackTop, void(Function)(void*), void* parameters);
+
+void ThreadLibInit(void)
 {
     unsigned i;
     
+   
     for(i = 0; i < MAX_PRIORITY; i++)
     {
         ReadyThreads[i] = newDataStructure();
@@ -43,21 +53,10 @@ static void __attribute__((constructor))ThreadLibInit(void)
     BlockedThreads = newDataStructure();
     SuspendedThreads = newDataStructure();
     ThreadTicks = 0;
-    SwitchThreadRequired = FALSE;
+    SwitchThreadRequired = _FALSE_;
     qntThreads = 0;
 }
 
-static void __attribute__((destructor))ThreadLibFinish(void)
-{
-    unsigned i;
-    
-    for(i = 0; i < MAX_PRIORITY; i++)
-    {
-        DataStructureDestroy(ReadyThreads[i]);
-    }
-    DataStructureDestroy(BlockedThreads);
-    DataStructureDestroy(SuspendedThreads);
-}
 
 short ThreadCreate(const unsigned char* name,const ThreadAttribute* threadAtt,ThreadFunction func, Thread* tcb)
 {
@@ -90,8 +89,11 @@ short ThreadCreate(const unsigned char* name,const ThreadAttribute* threadAtt,Th
 		newTcb->function = func;
 		*tcb = (void*)newTcb;
 		qntThreads++;
-		Queue_Insert(ReadyThreads[newTcb->attr.priority], newTcb);
-
+        newTcb->cacheHit = 0;
+        newTcb->cacheMiss;
+        newTcb->attr.stackBaseAddress = ThreadStackInit(newTcb->attr.stackBaseAddress,func,NULL);
+        AddNewThreadReadyList(newTcb);
+        
 		return 0;
 	}
 
@@ -105,15 +107,11 @@ inline Thread __attribute__((always_inline))ThreadGetCurrentThreadPtr(void)
 
 Boolean ThreadIncrementTicks(void)
 {
-    const unsigned Ticks = ThreadTicks + 1;
-    Boolean SwitchR = FALSE;
+    volatile const unsigned int Ticks = ThreadTicks + 1;
+    Boolean SwitchR = _FALSE_;
     
     ThreadTicks = Ticks;
     
-    if(Ticks >= timeSlice)
-    {
-        SwitchR = TRUE;
-    }
    
     return SwitchR;
 }
@@ -147,8 +145,32 @@ void ThreadResume(Thread* threadToResume)
 void BlockedCurrentThread()
 {
     DisableInterrupts();
-	RunningThread->state = Blocked;
-	Queue_Insert(BlockedThreads, (void*)RunningThread);
+	//RunningThread->state = Blocked;
+	//Queue_Insert(BlockedThreads, (void*)RunningThread);
     EnableInterrupts();
 }
 
+static void AddNewThreadReadyList(ThreadControlBlock* Tcb)
+{
+    DisableInterrupts();
+    
+    if(RunningThread ==  NULL)
+    {
+        RunningThread = Tcb;
+        Tcb->arrivalCycle = _CP0_GET_COUNT();
+    }
+    else
+    {
+        if(RunningThread->attr.priority <= Tcb->attr.priority)
+        {
+            DataStructureInsertBottom(ReadyThreads[Tcb->attr.priority],Tcb);
+            SoftwareInterruptRequest();
+        }
+        else
+        {
+            
+        }
+    }
+    
+    EnableInterrupts();
+}

@@ -7,7 +7,7 @@
     
     .extern SystemStackFlag
     .extern SystemStackTop
-    .extern CurrentThreadAddress
+    .extern RunningThread
     .extern CurrentThreadStackAddress
     .extern TicksIncrement
     
@@ -38,7 +38,8 @@ TimerTicksInterrupt:
 StartFirstThread:
   
     RestoreContext
-  
+    
+    
 .end StartFirstThread
     
     
@@ -110,7 +111,7 @@ SoftwareInterrupt:
     sw $s7,8($s5)
     
     /*Save stack in current thread address*/
-    la $s7,CurrentThreadAddress
+    la $s7,RunningThread
     lw $s7,($s7)
     sw $s5,($s7)
     
@@ -141,7 +142,7 @@ SoftwareInterrupt:
     mtc0 $s7,$12,0
     ehb
     
-    la $s0,CurrentThreadAddress
+    la $s0,RunningThread
     lw $s0,($s0)
     lw $s5,($s0)
     

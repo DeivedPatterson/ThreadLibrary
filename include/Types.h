@@ -6,14 +6,16 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
+#define True    1u
+#define False   0u
 
 typedef unsigned short tid_t;
 typedef void* Thread;
 
 typedef enum
 {
-    FALSE,
-    TRUE          
+    _FALSE_,
+    _TRUE_          
 }Boolean;
 
 

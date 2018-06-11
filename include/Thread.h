@@ -7,7 +7,7 @@
 #ifndef THREAD_H_
 #define THREAD_H_
 
-#include "types.h"
+#include "Types.h"
 
 typedef enum ThreadState
 {
@@ -26,7 +26,7 @@ typedef struct ThreadAttribute
 	unsigned int stackWordSize;
 }ThreadAttribute;
 
-typedef void* (*ThreadFunction)(void* parameters);
+typedef void (*ThreadFunction)(void* parameters);
 
 short ThreadCreate(const unsigned char* name, const ThreadAttribute* threadAtt, ThreadFunction func, Thread* tcb);
 
@@ -36,6 +36,6 @@ void ThreadBlocked(Thread* threadToBlocked);
 void ThreadResume(Thread* threadToResume);
 inline Thread __attribute__((always_inline))ThreadGetCurrentThreadPtr(void);
 void BlockedCurrentThread();
-void __attribute__((nomips16))TaskYield(void);
+void ThreadLibInit(void);
 
 #endif
