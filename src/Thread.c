@@ -14,6 +14,8 @@
 #define STACK_SIZE_DEFAULT 128u
 #define ticks_t +0
 
+
+
 typedef struct ThreadControlBlock
 {
 	ThreadAttribute attr;
@@ -39,7 +41,7 @@ static const unsigned timeSlice = 50 ticks_t;
 Boolean SwitchThreadRequired; 
 
 static void AddNewThreadReadyList(ThreadControlBlock* Tcb);
-extern void* ThreadStackInit(unsigned int* ThreadStackTop, void(Function)(void*), void* parameters);
+extern void* ThreadStackInit(unsigned int* ThreadStackTop, ThreadFunction function, void* parameters);
 
 void ThreadLibInit(void)
 {
@@ -50,6 +52,7 @@ void ThreadLibInit(void)
     {
         ReadyThreads[i] = newDataStructure();
     }
+    
     BlockedThreads = newDataStructure();
     SuspendedThreads = newDataStructure();
     ThreadTicks = 0;
@@ -84,14 +87,14 @@ short ThreadCreate(const unsigned char* name,const ThreadAttribute* threadAtt,Th
 		}
 
 		newTcb->name = (char*)calloc(strlen(name)+1,sizeof(char));
-		strcpy(newTcb->name,name);
+		strcpy(newTcb->name, name);
 		newTcb->state = Ready;
 		newTcb->function = func;
 		*tcb = (void*)newTcb;
 		qntThreads++;
         newTcb->cacheHit = 0;
-        newTcb->cacheMiss;
-        newTcb->attr.stackBaseAddress = ThreadStackInit(newTcb->attr.stackBaseAddress,func,NULL);
+        newTcb->cacheMiss = 0;
+        newTcb->attr.stackBaseAddress = ThreadStackInit(newTcb->attr.stackBaseAddress, func, NULL);
         AddNewThreadReadyList(newTcb);
         
 		return 0;
@@ -109,16 +112,31 @@ Boolean ThreadIncrementTicks(void)
 {
     volatile const unsigned int Ticks = ThreadTicks + 1;
     Boolean SwitchR = _FALSE_;
+    unsigned i = 0;
     
     ThreadTicks = Ticks;
-    
+    if(ThreadTicks > 1000)
+    { 
+       ThreadTicks = 0;
+    }
    
     return SwitchR;
 }
 
 void ThreadSwitchContext(void)
 {
+    ThreadControlBlock* temp;
     
+    temp = RunningThread;
+    RunningThread = DataStructureRemoveTop(ReadyThreads[1]);
+    DataStructureInsertTop(ReadyThreads[1], temp);
+}
+
+void ThreadSwitchContextForCycles(void)
+{
+    
+   
+   
 }
 
 
@@ -154,17 +172,18 @@ static void AddNewThreadReadyList(ThreadControlBlock* Tcb)
 {
     DisableInterrupts();
     
-    if(RunningThread ==  NULL)
+    Tcb->arrivalCycle = _CP0_GET_COUNT();
+    
+    if(RunningThread == NULL)
     {
         RunningThread = Tcb;
-        Tcb->arrivalCycle = _CP0_GET_COUNT();
     }
     else
     {
         if(RunningThread->attr.priority <= Tcb->attr.priority)
         {
-            DataStructureInsertBottom(ReadyThreads[Tcb->attr.priority],Tcb);
-            SoftwareInterruptRequest();
+            DataStructureInsertTop(ReadyThreads[Tcb->attr.priority],Tcb);
+            PORTAbits.RA6 = 1;
         }
         else
         {

@@ -1,7 +1,7 @@
 #include "../include/MIPS32_M4K.h"
 
 
-inline unsigned int __attribute__((nomips16,always_inline)) EnableInterrupts(void)
+inline unsigned int __attribute__((nomips16, always_inline)) EnableInterrupts(void)
 {
     unsigned int status;
     
@@ -10,7 +10,7 @@ inline unsigned int __attribute__((nomips16,always_inline)) EnableInterrupts(voi
     return status;
 }
 
-inline unsigned int __attribute__((nomips16,always_inline)) DisableInterrupts(void)
+inline unsigned int __attribute__((nomips16, always_inline)) DisableInterrupts(void)
 {
     unsigned status;
     
@@ -37,7 +37,7 @@ void __attribute__((nomips16)) KSeg0Uncached(void)
     asm volatile("mtc0 %0,$16,0" :: "r"(temp));  
 }
 
-void __attribute__((nomips16)) SoftwareInterruptRequest(void)
+inline void __attribute__((nomips16, always_inline)) SoftwareInterruptRequest(void)
 {
     volatile register unsigned long temp;
     

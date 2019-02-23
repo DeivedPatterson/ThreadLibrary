@@ -4,10 +4,17 @@
 #include "../include/DataStructure.h"
 
 
+typedef struct DataStructure
+{
+	HeadDataStructure beginning;
+	HeadDataStructure end;
+	unsigned size;
+	ptrNode lastNodeAccessed;
+	unsigned lastIndexAccessed;
+}*ptrDataStructure;
 
 
-
-ptrDataStructure newDataStructure(void)
+Object newDataStructure(void)
 {
 	ptrDataStructure dataStruct = NULL;
 
@@ -26,17 +33,20 @@ ptrDataStructure newDataStructure(void)
 			free(dataStruct);
 			dataStruct = NULL;
 		}
-		(*(dataStruct->beginning)) = NULL;
-		(*(dataStruct->end)) = NULL;
-
+		else
+		{
+			(*(dataStruct->beginning)) = NULL;
+			(*(dataStruct->end)) = NULL;
+		}
 	}
 
 	return dataStruct;
 }
 
-RESPONSE DataStructureInsertTop(ptrDataStructure dataStruct, void* info)
+RESPONSE DataStructureInsertTop(Object ds, void* info)
 {
 	ptrNode newNode = NULL;
+	ptrDataStructure dataStruct = (ptrDataStructure)ds;
 
 	if(dataStruct == NULL)
 	{
@@ -67,9 +77,11 @@ RESPONSE DataStructureInsertTop(ptrDataStructure dataStruct, void* info)
 
 
 
-RESPONSE DataStructureInsertBottom(ptrDataStructure dataStruct, void* info)
+RESPONSE DataStructureInsertBottom(Object ds, void* info)
 {
+
 	ptrNode newNode = NULL;
+	ptrDataStructure dataStruct = (ptrDataStructure)ds;
 
 	if(dataStruct == NULL)
 	{
@@ -89,17 +101,26 @@ RESPONSE DataStructureInsertBottom(ptrDataStructure dataStruct, void* info)
 	newNode->index = dataStruct->size;
 	newNode->next = NULL;
 
-	(*(dataStruct->end))->next = newNode;
-	*(dataStruct->end) = newNode;
+	if(*(dataStruct->beginning) == NULL && *(dataStruct->end) == NULL)
+	{
+		*(dataStruct->beginning) = newNode;
+		*(dataStruct->end) = newNode;
+	}
+	else
+	{
+		(*(dataStruct->end))->next = newNode;
+		(*(dataStruct->end)) = newNode;
+	}
 
 	dataStruct->size++;
 
 	return SUCCESS;
 }
 
-RESPONSE DataStructureDestroy(ptrDataStructure dataStruct)
+RESPONSE DataStructureDestroy(Object ds)
 {
 	ptrNode	scroll;
+	ptrDataStructure dataStruct = (ptrDataStructure)ds;
 
 	if(dataStruct == NULL)
 	{
@@ -133,27 +154,58 @@ RESPONSE DataStructureDestroy(ptrDataStructure dataStruct)
 	return SUCCESS;
 }
 
-RESPONSE DataStructureInsert(ptrDataStructure dataStruct, void* info, bool(*compare)(void*,void*))
+RESPONSE DataStructureInsert(Object ds, void* info, bool(*compare)(void*,void*))
 {
 
 }
-RESPONSE DataStructureInsertIndex(ptrDataStructure dataStruct, void* info, unsigned index)
+RESPONSE DataStructureInsertIndex(Object ds, void* info, unsigned index)
 {
 
 }
-void* DataStructureRemoveTop(ptrDataStructure dataStruct)
+
+bool isEmpty(Object ds)
+{
+	ptrDataStructure dataStruct;
+
+	dataStruct = (ptrDataStructure)ds;
+
+	if(dataStruct == NULL || *(dataStruct->beginning) == NULL)
+		return true;
+
+	return false;
+}
+
+Object DataStructureRemoveTop(Object ds)
+{
+	ptrDataStructure dataStruct;
+	Object data;
+
+	dataStruct = (ptrDataStructure)ds;
+
+	if((dataStruct ==  NULL) || (dataStruct->beginning == NULL))
+		return NULL;
+	else if(isEmpty(ds))
+		return NULL;
+
+	data = (*(dataStruct->beginning))->info;
+	*(dataStruct->beginning) = (*(dataStruct->beginning))->next;
+	if(*(dataStruct->beginning) == NULL)
+		*(dataStruct->end) = NULL;
+
+	return data;
+}
+
+Object DataStructureRemoveBottom(Object ds)
 {
 
 }
-void* DataStructureRemoveBottom(ptrDataStructure dataStruct)
+
+Object DataStructureRemoveIndex(Object ds, unsigned index)
 {
 
 }
-void* DataStructureRemoveIndex(ptrDataStructure dataStruct, unsigned index)
-{
 
-}
-void* DataStructureRemove(ptrDataStructure dataStruct, bool(*compare)(void*,void*))
+Object DataStructureRemove(Object ds, bool(*compare)(void*,void*))
 {
 
 }

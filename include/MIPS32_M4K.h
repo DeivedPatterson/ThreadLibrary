@@ -13,25 +13,25 @@
 #include "Config.h"
 
 
-#define IPL_BITS    0xFFFFFC00
+#define IPL_BITS    0x003F0000
 #define IPL_SHIFT   10UL
 
-#define DISABLE_INTERRUPTS()                                                    \
-{                                                                               \
-    unsigned int CP0_Status;                                                    \       
-                                                                                \        
-    CP0_Status = _CP0_GET_STATUS();                                             \
-    CP0_Status &= ~IPL_BITS;                                                    \
-    _CP0_SET_STATUS((CP0_Status|(MAX_SYSCALL_INTERRUPT_PRIORITY << IPL_SHIFT))); \
+#define DISABLE_INTERRUPTS()                                                        \
+{                                                                                   \
+    unsigned int CP0_Status;                                                        \
+                                                                                    \
+    CP0_Status = _CP0_GET_STATUS();                                                 \
+    CP0_Status &= ~IPL_BITS;                                                        \
+    _CP0_SET_STATUS((CP0_Status|(MAX_SYSCALL_INTERRUPT_PRIORITY << IPL_SHIFT)));    \
 }
 
-#define ENABLE_INTERRUPTS()                                                     \
-{                                                                               \
-    unsigned int CP0_Status;                                                    \       
-                                                                                \        
-    CP0_Status = _CP0_GET_STATUS();                                             \
-    CP0_Status &= ~IPL_BITS;                                                    \
-    _CP0_SET_STATUS(CP0_Status);                                                \
+#define ENABLE_INTERRUPTS()                                                         \
+{                                                                                   \
+    unsigned int CP0_Status;                                                        \
+                                                                                    \
+    CP0_Status = _CP0_GET_STATUS();                                                 \
+    CP0_Status &= ~IPL_BITS;                                                        \
+    _CP0_SET_STATUS(CP0_Status);                                                    \
 }
 
 inline unsigned int __attribute__((nomips16,always_inline)) EnableInterrupts(void);

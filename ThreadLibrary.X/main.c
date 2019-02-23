@@ -41,7 +41,19 @@
 
 #define LED_STATUS PORTAbits.RA7
 
-void Thread_PaintLcd(void* parameters)
+void Thread1(void* parameters)
+{
+    unsigned int i;
+    
+    while(1)
+    {     
+        for(i = 0; i < 5000000ul; i++)
+            asm("nop");
+        PORTAINV = 0x0080;
+    }
+}
+
+void Thread2(void* parameters)
 {
     unsigned int i;
     
@@ -50,17 +62,22 @@ void Thread_PaintLcd(void* parameters)
         for(i = 0; i < 5000000ul; i++)
             asm("nop");
         
-        //LED_STATUS = !LED_STATUS;
-        PORTAINV = 0x0080;
+        PORTAINV = 64;
     }
 }
 
 int main(int argc, char** argv) 
 {
-    Thread pLcd;
+    Thread thr1;
+    Thread thr2;
     
     SYSTEMConfigPerformance(SYS_FREQ);
     INTEnableSystemMultiVectoredInt();
+    
+    TRISAbits.TRISA7 = 0;
+    PORTAbits.RA7 = 0;
+    TRISAbits.TRISA6 = 0;
+    PORTAbits.RA6 = 0;
    
   //  SYSTEMConfig(SYS_FREQ, SYS_CFG_WAIT_STATES | SYS_CFG_PCACHE);
    // SYSTEMConfigWaitStatesAndPB(SYS_FREQ);
@@ -68,11 +85,10 @@ int main(int argc, char** argv)
    // KSeg0Cacheable();
     ThreadLibInit();
     
-    ThreadCreate("Paint Lcd",NULL,Thread_PaintLcd,&pLcd);
-    TRISAbits.TRISA7 = 0;
-    PORTAbits.RA7 = 0;
-    TRISAbits.TRISA6 = 0;
-    PORTAbits.RA6 = 0;
+    ThreadCreate("thr1",NULL,Thread1,&thr1);
+    ThreadCreate("thr2",NULL,Thread2,&thr2);
+    
+   
     
     StartScheduling();
     

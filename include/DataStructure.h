@@ -25,8 +25,8 @@ extern "C" {
 #define toCircularChained(dataStruct)
 #define toChained(dataStruct)
 
-#define foreach(dataStruct, ptr) \
-   for(ptrNode scroll = *(dataStruct->beginning); scroll != NULL?ptr = scroll->info:0,scroll != NULL; scroll = scroll->next) 
+#define foreach(ptr, dataStruct) \
+   for(ptrNode scroll = *(*((void***)dataStruct)); scroll != NULL?ptr = scroll->info:0,scroll != NULL; scroll = scroll->next) 
 
 
 
@@ -48,29 +48,23 @@ typedef struct Node
 typedef ptrNode* HeadDataStructure;
 
 
-typedef struct DataStructure
-{
-	HeadDataStructure beginning;
-	HeadDataStructure end;
-	unsigned size;
-	ptrNode lastNodeAccessed;
-	unsigned lastIndexAccessed;
-}*ptrDataStructure;
 
-typedef ptrDataStructure Queue;
-typedef ptrDataStructure Stack;
-typedef ptrDataStructure List;
+typedef void *Object;
+typedef void* Queue;
+typedef void* Stack;
+typedef void* List;
 
-ptrDataStructure newDataStructure(void);
-RESPONSE DataStructureDestroy(ptrDataStructure dataStruct);
-RESPONSE DataStructureInsertTop(ptrDataStructure dataStruct, void* info);
-RESPONSE DataStructureInsertBottom(ptrDataStructure dataStruct, void* info);
-RESPONSE DataStructureInsert(ptrDataStructure dataStruct, void* info, bool(*compare)(void*,void*));
-RESPONSE DataStructureInsertIndex(ptrDataStructure dataStruct, void* info, unsigned index);
-void* DataStructureRemoveTop(ptrDataStructure dataStruct);
-void* DataStructureRemoveBottom(ptrDataStructure dataStruct);
-void* DataStructureRemoveIndex(ptrDataStructure dataStruct, unsigned index);
-void* DataStructureRemove(ptrDataStructure dataStruct, bool(*compare)(void*,void*));
+Object newDataStructure(void);
+RESPONSE DataStructureDestroy(Object ds);
+bool isEmpty(Object ds);
+RESPONSE DataStructureInsertTop(Object ds, void* info);
+RESPONSE DataStructureInsertBottom(Object ds, void* info);
+RESPONSE DataStructureInsert(Object ds, void* info, bool(*compare)(void*,void*));
+RESPONSE DataStructureInsertIndex(Object ds, void* info, unsigned index);
+Object DataStructureRemoveTop(Object ds);
+Object DataStructureRemoveBottom(Object ds);
+Object DataStructureRemoveIndex(Object ds, unsigned index);
+Object DataStructureRemove(Object ds, bool(*compare)(void*,void*));
 
 #ifdef __cplusplus
 }

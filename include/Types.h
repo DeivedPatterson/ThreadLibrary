@@ -19,4 +19,6 @@ typedef enum
 }Boolean;
 
 
+typedef void(*ThreadFunction)(void*);
+
 #endif

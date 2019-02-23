@@ -1,35 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "../include/Semaphore.h"
+#include "../include/DataStructure.h"
+    
 
-
-typedef struct ThreadControlBlock
+typedef union Integer
 {
-	unsigned int* stackBaseAddress;
-	unsigned int* stackLimitAddress;
-	//tid_t id;
-	unsigned short priority;
-	unsigned int stackWordSize;
-	
-}ThreadControlBlock;
+	int w;
+}*Integer;
+
+Integer newInteger(int w)
+{
+	Integer i;
+
+	i = (Integer)malloc(sizeof(union Integer));
+	i->w = w;
+
+	return i;
+}
 
 int main(int argc, char const *argv[])
 {
-	ThreadControlBlock* t;
-	void* p;
-	unsigned *ptr;
+	Integer p;
 
-	t = (ThreadControlBlock*)malloc(sizeof(ThreadControlBlock));
-	t->stackLimitAddress = (unsigned*)calloc(10,sizeof(unsigned));
-	t->stackBaseAddress = &(t->stackLimitAddress[9]);
-	p = t;
+	List lts = newList();
+	
+	DataStructureInsertTop(lts, newInteger(10));
+	
+	foreach(p, lts)
+	{
+		printf("%i\n", p->w);
+	}
 
-	ptr = (unsigned*)p;
-	ptr++;
-	*ptr = 9;
-//	printf("%u\n", *ptr);
-	printf("%u\n", *(t->stackBaseAddress));
-	free(t);
+	p = DataStructureRemoveTop(lts);
+
+	printf("%i\n\n", p->w );
+
+	DataStructureInsertTop(lts, p);
+
+	foreach(p, lts)
+	{
+		printf("%i\n", p->w);
+	}
 
 	return 0;
 }
