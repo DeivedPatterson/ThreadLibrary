@@ -9,8 +9,6 @@
 #define TICK_RATE_HZ			1000u
 #define TIME_PRESCALE			8
 #define PRESCALE_SELECT_BITS 	1     
-
-#define THREAD_MAX_CYCLES       0xFFF00000
    
 #ifndef MIN_STACK_ISR
 	#define MIN_STACK_ISR 256u
@@ -33,7 +31,7 @@ void __ISR(_CORE_SOFTWARE_0_VECTOR, IPL1AUTO) CoreSoftwareISR(void);
 void __ISR(_CORE_TIMER_VECTOR, IPL1AUTO) CoreTimerISR(void);
 
 
-void* ThreadStackInit(unsigned int* ThreadStackTop, ThreadFuntion function, void* parameters)
+void* ThreadStackInit(unsigned int* ThreadStackTop, ThreadFunction function, void* parameters)
 {
     unsigned int temp;
     
@@ -60,13 +58,13 @@ void StartScheduling(void)
     IPC0bits.CS0IP = KERNEL_INTERRUPT_PRIORITY;
     IPC0bits.CS0IS = 0;
     IFS0bits.CS0IF = 0;
-    IEC0bits.CS0IE = 1;
+    IEC0bits.CS0IE = 0;
     
-    _CP0_SET_COMPARE(THREAD_MAX_CYCLES);
+    _CP0_SET_COMPARE(PERIPHERAL_CLOCK_HZ);
     IPC0bits.CTIP = KERNEL_INTERRUPT_PRIORITY;
     IPC0bits.CTIS = 0;
     IFS0bits.CTIF = 0;
-    IEC0bits.CTIE = 0;
+    IEC0bits.CTIE = 1;
     
     T1CON = 0x0000;
 	T1CONbits.TCKPS = PRESCALE_SELECT_BITS;

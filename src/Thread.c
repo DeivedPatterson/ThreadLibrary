@@ -1,5 +1,6 @@
 #include "../include/Thread.h"
 #include "../include/Types.h"
+#include "../include/Config.h"
 #include "../include/DataStructure.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -125,18 +126,28 @@ Boolean ThreadIncrementTicks(void)
 
 void ThreadSwitchContext(void)
 {
-    ThreadControlBlock* temp;
     
-    temp = RunningThread;
-    RunningThread = DataStructureRemoveTop(ReadyThreads[1]);
-    DataStructureInsertTop(ReadyThreads[1], temp);
+//    ThreadControlBlock* temp;
+//    
+//    temp = RunningThread;
+//    RunningThread = DataStructureRemoveTop(ReadyThreads[1]);
+//    DataStructureInsertTop(ReadyThreads[1], temp);
+    
+    
 }
 
 void ThreadSwitchContextForCycles(void)
 {
-    
+   ThreadControlBlock* temp;
    
+    temp = RunningThread;
+    RunningThread = DataStructureRemoveTop(ReadyThreads[1]);
+    DataStructureInsertTop(ReadyThreads[1], temp); 
+  
+   IFS0CLR = _IFS0_CTIF_MASK;
    
+   _CP0_SET_COUNT(0);
+   _CP0_SET_COMPARE(THREAD_MAX_CYCLES);
 }
 
 
@@ -183,7 +194,6 @@ static void AddNewThreadReadyList(ThreadControlBlock* Tcb)
         if(RunningThread->attr.priority <= Tcb->attr.priority)
         {
             DataStructureInsertTop(ReadyThreads[Tcb->attr.priority],Tcb);
-            PORTAbits.RA6 = 1;
         }
         else
         {

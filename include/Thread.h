@@ -26,7 +26,7 @@ typedef struct ThreadAttribute
 	unsigned int stackWordSize;
 }ThreadAttribute;
 
-typedef void (*ThreadFunction)(void* parameters);
+
 
 short ThreadCreate(const unsigned char* name, const ThreadAttribute* threadAtt, ThreadFunction func, Thread* tcb);
 

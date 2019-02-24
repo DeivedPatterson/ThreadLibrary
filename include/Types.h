@@ -18,7 +18,6 @@ typedef enum
     _TRUE_          
 }Boolean;
 
-
-typedef void(*ThreadFunction)(void*);
+typedef void (*ThreadFunction)(void* parameters);
 
 #endif

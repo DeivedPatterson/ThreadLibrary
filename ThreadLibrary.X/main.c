@@ -41,6 +41,8 @@
 
 #define LED_STATUS PORTAbits.RA7
 
+int v = 0;
+
 void Thread1(void* parameters)
 {
     unsigned int i;
@@ -49,7 +51,12 @@ void Thread1(void* parameters)
     {     
         for(i = 0; i < 5000000ul; i++)
             asm("nop");
-        PORTAINV = 0x0080;
+        
+        if(v == 0)
+        {
+            LATAINV = 0x0080;
+            v = 1;
+        }
     }
 }
 
@@ -59,10 +66,14 @@ void Thread2(void* parameters)
     
     while(1)
     {     
-        for(i = 0; i < 5000000ul; i++)
+        for(i = 0; i < 500000ul; i++)
             asm("nop");
         
-        PORTAINV = 64;
+        if(v == 1)
+        {
+         LATAINV = 64;
+         v = 0;
+        }
     }
 }
 

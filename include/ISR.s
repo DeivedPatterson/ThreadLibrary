@@ -233,9 +233,10 @@ CoreSoftwareISR:
     .set noat
     .ent CoreTimerISR
     
+
 CoreTimerISR:
-    
-   /* Make room for the context. First save the current status so it can be
+   
+    /* Make room for the context. First save the current status so it can be
     manipulated. */
     addiu $sp, $sp, -132
     mfc0 $k1, $12,0
@@ -334,7 +335,7 @@ CoreTimerISR:
     li $s4, 0
     sw $s4,($s6)
     
-    jal ThreadSwitchContext
+    jal ThreadSwitchContextForCycles
     nop
     
     mtc0 $s7,$12,0
@@ -403,6 +404,7 @@ CoreTimerISR:
     ehb
     eret
     nop
+   
     
 .end CoreTimerISR
 
